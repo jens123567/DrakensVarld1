@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>jens canvas 2</title>
+   
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+ 
+
+<canvas id="myCanvas" width="1000" height="600"></canvas>
+<button id="button1">unmute</button>
+
+
+<script>
+	var canvas = document.getElementById("myCanvas");
+    var ctx = canvas.getContext("2d");
+    var x = canvas.width/2;
+    var y = canvas.height/2;
+    var ballRadius = 20;
+
+
+    var rightPressed = false;
+    var leftPressed = false;
+    var upPressed = false;
+    var downPressed = false;
+
+    var playing = new Boolean(false);
+
+    var myAudio = new Audio('media/drakensVarld.mp3'); 
+
+    var locationIndex = 0
+
+    
+    function player() {
+        var player1 = new Image();
+        player1.src = "media/spelare1.png";
+        player1.onload = () => ctx.drawImage(player1, x, y)
+    }
+
+    function centerWorld() {
+        var BG = new image();
+        BG.src = "media/centerMap.png"
+        BG.onload = () => ctx.drawImage(BG,0,0)
+        
+
+        if (x>1000) {
+        x=0
+        locationIndex=1
+    }else if(x<0){
+        x=1000
+    }
+    else if(y<0){
+        y=600
+    }
+    else if(y>600){
+        y=0
+    }
+
+    ctx.font = "30px Arial";
+    ctx.fillText("center World", 10, 50); 
+    }
+
+    function rightWorld() {
+        if (x>1000) {
+        x=1000
+        
+    }else if(x<0){
+        x=1000
+        locationIndex=0
+    }
+    else if(y<0){
+        y=600
+    }
+    else if(y>600){
+        y=0
+    }
+
+    ctx.font = "30px Arial";
+    ctx.fillText("right World", 10, 50); 
+    }
+
+    function drawBall() {
+    ctx.beginPath();
+    ctx.arc(x,y,ballRadius,0,Math.PI*2,false);
+    ctx.fillStyle="blue";
+    ctx.fill();
+    ctx.closePath();
+    }
+
+    function movement() {
+        var movementSpeed = 2.5
+
+
+        if (rightPressed) {
+        x += movementSpeed
+    } else if(leftPressed){
+        x -= movementSpeed
+    }
+     else if(upPressed){
+        y -= movementSpeed
+    }
+     else if(downPressed){
+        y += movementSpeed
+    }
+    }
+
+
+function draw() {
+    
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+   
+    /*drawBall();*/
+    movement();
+    player();
+   
+    switch (locationIndex) {
+        case 0:
+    centerWorld();
+            break;
+    
+        case 1:
+    rightWorld();
+            break;
+    
+        default:
+            break;
+    }
+
+    
+   
+}
+setInterval(draw, 10);
+document.addEventListener("keydown", keyDownHandler, false);
+document.addEventListener("keyup", keyUpHandler, false);
+
+function keyDownHandler(e) {
+    if(e.key == "Right" || e.key == "ArrowRight") {
+        rightPressed = true;
+    }
+    else if(e.key == "Left" || e.key == "ArrowLeft") {
+        leftPressed = true;
+    }
+    else if(e.key == "Up" || e.key == "ArrowUp") {
+        upPressed = true;
+    }
+    else if(e.key == "Down" || e.key == "ArrowDown") {
+        downPressed = true;
+    }
+}
+
+function keyUpHandler(e) {
+    if(e.key == "Right" || e.key == "ArrowRight") {
+        rightPressed = false;
+    }
+    else if(e.key == "Left" || e.key == "ArrowLeft") {
+        leftPressed = false;
+    }
+    else if(e.key == "Up" || e.key == "ArrowUp") {
+        upPressed = false;
+    }
+    else if(e.key == "Down" || e.key == "ArrowDown") {
+        downPressed = false;
+    }
+}
+
+document.getElementById("button1").addEventListener("click",function(){
+    myAudio.play();
+});
+</script>
+
+</body>
+</html>

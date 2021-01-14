@@ -1,0 +1,22 @@
+* {
+  padding: 0;
+  margin: 0;
+}
+
+html {
+  background-image: url("media/drakensVarldBG.jpg");
+  background-repeat: repeat;
+}
+
+#button1 {
+  margin-left: 70px;
+}
+
+canvas {
+  /*background-image: url("media/centerMap.png");*/
+  background-repeat: no-repeat;
+  background-size: 100%;
+  display: block;
+  margin: 0 auto;
+  margin-top: 20px;
+}
